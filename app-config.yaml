@@ -31,7 +31,9 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-
+  reading:
+    allow:
+      - host: raw.githubusercontent.com
 integrations:
   github:
     - host: github.com
@@ -76,7 +78,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, Template]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
@@ -93,6 +95,9 @@ catalog:
       target: ../../examples/org.yaml
       rules:
         - allow: [User, Group]
+        
+    - type: url
+      target: https://raw.githubusercontent.com/regmisan/backstage-dev-portal/master/templates/gcp-vm/catalog-info.yaml
 
     ## Uncomment these lines to add more example data
     # - type: url
