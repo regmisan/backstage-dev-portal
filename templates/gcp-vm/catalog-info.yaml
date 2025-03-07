@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: create-gcp-vm
+  description: A simple Backstage template to create a VM in GCP.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  owner: user@example.com
+  lifecycle: experimental
+
