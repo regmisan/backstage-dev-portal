@@ -37,14 +37,14 @@ spec:
   steps:
     - id: terraform-init
       name: Terraform Init
-      action: backstage:task:exec
+      action: run:script
       input:
         command: terraform init
         workingDirectory: ./terraform
 
     - id: terraform-apply
       name: Terraform Apply
-      action: backstage:task:exec
+      action: run:script
       input:
         command: >
           terraform apply -auto-approve
