@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: create-gcp-vm
   title: Create GCP VM
-  description: A template to create a simple VM in Google Cloud Platform.
+  description: A template to create a VM in Google Cloud Platform using Terraform.
 spec:
   owner: user@example.com
   type: service
@@ -34,21 +34,26 @@ spec:
           description: The VM type (e.g., e2-medium).
 
   steps:
-    - id: create-vm
-      name: Create GCP VM
-      action: roadiehq:utils:run-command
+    - id: terraform-init
+      name: Terraform Init
+      action: backstage:task:exec
       input:
-        shell: bash
-        command: |
-          gcloud compute instances create ${{ parameters.vm_name }} \
-          --project=${{ parameters.project_id }} \
-          --zone=${{ parameters.zone }} \
-          --machine-type=${{ parameters.machine_type }} \
-          --image-family=debian-11 \
-          --image-project=debian-cloud \
-          --boot-disk-size=10GB
+        command: terraform init
+        workingDirectory: ./terraform
+
+    - id: terraform-apply
+      name: Terraform Apply
+      action: backstage:task:exec
+      input:
+        command: >
+          terraform apply -auto-approve
+          -var="project_id=${{ parameters.project_id }}"
+          -var="vm_name=${{ parameters.vm_name }}"
+          -var="zone=${{ parameters.zone }}"
+          -var="machine_type=${{ parameters.machine_type }}"
+        workingDirectory: ./terraform
+
   output:
     links:
       - title: View VM in GCP
         url: "https://console.cloud.google.com/compute/instances?project=${{ parameters.project_id }}"
-
