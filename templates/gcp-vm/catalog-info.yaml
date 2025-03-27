@@ -1,53 +1,12 @@
-apiVersion: scaffolder.backstage.io/v1beta3
-kind: Template
+apiVersion: backstage.io/v1alpha1
+kind: Component
 metadata:
   name: create-gcp-vm
   title: Create GCP VM
-  description: A template to create a VM in Google Cloud Platform.
+  description: A template to create a VM in Google Cloud Platform using Terraform.
   annotations:
     backstage.io/techdocs-ref: dir:.
 spec:
+  type: template
+  lifecycle: experimental
   owner: user@example.com
-  type: service
-  parameters:
-    - title: GCP VM Details
-      required:
-        - project_id
-        - vm_name
-        - zone
-        - machine_type
-      properties:
-        project_id:
-          title: GCP Project ID
-          type: string
-          description: The GCP project where the VM will be created.
-        vm_name:
-          title: VM Name
-          type: string
-          description: The name of the VM instance.
-        zone:
-          title: GCP Zone
-          type: string
-          description: The zone to deploy the VM (e.g., us-central1-a).
-        machine_type:
-          title: Machine Type
-          type: string
-          description: The VM type (e.g., e2-medium).
-  steps:
-    - id: create-vm
-      name: Create GCP VM
-      action: roadiehq:utils:run-command
-      input:
-        shell: bash
-        command: |
-          gcloud compute instances create ${{ parameters.vm_name }} \
-          --project=${{ parameters.project_id }} \
-          --zone=${{ parameters.zone }} \
-          --machine-type=${{ parameters.machine_type }} \
-          --image-family=debian-11 \
-          --image-project=debian-cloud \
-          --boot-disk-size=10GB
-  output:
-    links:
-      - title: View VM in GCP
-        url: "https://console.cloud.google.com/compute/instances?project=${{ parameters.project_id }}"
