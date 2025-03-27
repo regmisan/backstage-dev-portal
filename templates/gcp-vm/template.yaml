@@ -2,6 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: create-gcp-vm
+  namespace: default
   title: Create GCP VM
   description: A template to create a VM in Google Cloud Platform using Terraform.
 spec:
