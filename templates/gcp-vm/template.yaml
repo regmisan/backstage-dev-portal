@@ -39,19 +39,20 @@ spec:
       name: Terraform Init
       action: run:script
       input:
-        command: terraform init
+        script: |
+          terraform init
         workingDirectory: ./terraform
 
     - id: terraform-apply
       name: Terraform Apply
       action: run:script
       input:
-        command: >
-          terraform apply -auto-approve
-          -var="project_id=${{ parameters.project_id }}"
-          -var="vm_name=${{ parameters.vm_name }}"
-          -var="zone=${{ parameters.zone }}"
-          -var="machine_type=${{ parameters.machine_type }}"
+        script: |
+          terraform apply -auto-approve \
+            -var="project_id=${{ parameters.project_id }}" \
+            -var="vm_name=${{ parameters.vm_name }}" \
+            -var="zone=${{ parameters.zone }}" \
+            -var="machine_type=${{ parameters.machine_type }}"
         workingDirectory: ./terraform
 
   output:
